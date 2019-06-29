@@ -1,0 +1,214 @@
+<ion-header>
+  <ion-toolbar color = "primary">
+    <ion-title>
+      Clientes
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+ 
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-input placeholder="Nombre" [(ngModel)]="clientName"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-input placeholder="Apellido Pa." [(ngModel)]="clientLastname"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-input placeholder="Apellido Ma." [(ngModel)]="clientSurname"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-input placeholder="Correo" [(ngModel)]="clientEmail"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-input placeholder="Telefono" [(ngModel)]="clientPhone"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-input placeholder="Sexo" [(ngModel)]="clientSex"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-input placeholder="Dirección" [(ngModel)]="clientAddress"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+                <ion-item>
+                    <ion-datetime displayFormat="MM DD YY" placeholder="Fecha Nacimiento" [(ngModel)]="clientFechan"></ion-datetime>
+                </ion-item>
+            </ion-col>
+            <ion-col>
+                <ion-item>
+                    <ion-datetime displayFormat="MM DD YY" placeholder="Fecha Ins" [(ngModel)]="clientFechains"></ion-datetime>
+                </ion-item>
+            </ion-col>
+          </ion-row>
+      <ion-row>
+        <ion-col text-center>
+          <ion-button (click)="CreateRecord()" [disabled]="!clientName || !clientLastname || !clientAddress">
+            <ion-icon size="small" slot="icon-only" name="add"></ion-icon>
+            &nbsp;Cliente Nuevo
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+   
+   
+    <ion-card *ngFor="let item of clients">
+      <span *ngIf="!item.isEdit; else elseBlock">
+      <span *ngIf="!item.isGet; else elseeBlock">
+        <ion-card-header>
+          <ion-card-title (click)="EditRecord2(item)">{{item.Name}} {{item.Lastname}}</ion-card-title>
+          <ion-card-subtitle>Telefono: {{item.Phone}}</ion-card-subtitle>
+          <ion-card-subtitle>Fecha Inscripción: {{item.Fechains}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+   
+          <ion-button shape="round" color="secondary" size="small" (click)="EditRecord(item)">
+            <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+   
+          </ion-button>
+          <ion-button shape="round" color="danger" size="small" (click)="RemoveRecord(item.id)">
+            <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+   
+          </ion-button>
+        </ion-card-content>
+      </span>
+    </span>
+      <ng-template #elseBlock>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  Edit
+                </ion-col>
+                <ion-col>
+                  <ion-button fill="clear" color="medium" size="small" (click)="item.isEdit = false">
+                    Cancel
+                  </ion-button>
+                </ion-col>
+                <ion-col>
+                  <ion-button fill="outline" color="success" size="small" (click)="UpdateRecord(item)">
+                    Update
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label><strong>Nombre:</strong></ion-label>
+            <ion-input type="text" [(ngModel)]="item.EditName"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label><strong>Apellido Paterno:</strong></ion-label>
+            <ion-input type="text" [(ngModel)]="item.EditLastname"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label><strong>Apellido Materno:</strong></ion-label>
+            <ion-input type="text" [(ngModel)]="item.EditSurname"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label><strong>Correo:</strong></ion-label>
+              <ion-input type="text" [(ngModel)]="item.EditEmail"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label><strong>Sexo:</strong></ion-label>
+              <ion-input type="text" [(ngModel)]="item.EditSex"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label><strong>Telefono:</strong></ion-label>
+              <ion-input type="text" [(ngModel)]="item.EditPhone"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label><strong>Dirección:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.EditAddress"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Fecha Na.:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.EditFechan"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Fecha Ins:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.EditFechains"></ion-input>
+              </ion-item>
+        </ion-card-content>
+      </ng-template>
+      <ng-template #elseeBlock>
+          <ion-card-header>
+            <ion-card-title>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    Detalles
+                  </ion-col>
+                  <ion-col>
+                    <ion-button fill="clear" color="medium" size="small" (click)="item.isGet = false">
+                      Cerrar
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label><strong>Nombre:</strong></ion-label>
+              <ion-input type="text" [(ngModel)]="item.GetName" readonly="readonly"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label><strong>Apellido Paterno:</strong></ion-label>
+              <ion-input type="text" [(ngModel)]="item.GetLastname" readonly="readonly"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label><strong>Apellido Materno:</strong></ion-label>
+              <ion-input type="text" [(ngModel)]="item.GetSurname" readonly="readonly"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label><strong>Correo:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.GetEmail" readonly="readonly"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Sexo:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.GetSex" readonly="readonly"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Telefono:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.GetPhone" readonly="readonly"></ion-input>
+              </ion-item>
+              <ion-item>
+                  <ion-label><strong>Dirección:</strong></ion-label>
+                  <ion-input type="text" [(ngModel)]="item.GetAddress" readonly="readonly"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Fecha Na.:</strong></ion-label>
+                  <ion-input type="text" [(ngModel)]="item.GetFechan" readonly="readonly"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Fecha Ins:</strong></ion-label>
+                  <ion-input type="text" [(ngModel)]="item.GetFechains" readonly="readonly"></ion-input>
+                </ion-item>
+          </ion-card-content>
+        </ng-template>
+    </ion-card>
+   
+  </ion-content>

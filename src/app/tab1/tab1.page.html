@@ -1,0 +1,174 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      CITAS
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+ 
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-input placeholder="Nombre" [(ngModel)]="citaNamec"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-input placeholder="Apellido Pa." [(ngModel)]="citaLastnamec"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-input placeholder="Apellido Ma." [(ngModel)]="citaSurnamec"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-input placeholder="Telefono" [(ngModel)]="citaPhonec"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+              <ion-item>
+                <ion-input placeholder="Dirección" [(ngModel)]="citaAddressc"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+                <ion-item>
+                    <ion-datetime displayFormat="MM DD YY" placeholder="Fecha Cita" [(ngModel)]="citaFechac"></ion-datetime>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+      <ion-row>
+        <ion-col text-center>
+          <ion-button (click)="CreateRecord()" [disabled]="!citaNamec || !citaLastnamec || !citaAddressc || !citaFechac || !citaPhonec">
+            <ion-icon size="small" slot="icon-only" name="add"></ion-icon>
+            &nbsp;Cita Nuevo
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+   
+   
+    <ion-card *ngFor="let item of citas">
+
+      <span *ngIf="!item.isEdit; else elseBlock">
+      <span *ngIf="!item.isGet; else elseeBlock">
+        <ion-card-header>
+          <ion-card-title (click)="EditRecord2(item)">{{item.Namec}} {{item.Lastnamec}}</ion-card-title>
+          <ion-card-subtitle>Telefono: {{item.Phonec}}</ion-card-subtitle>
+          <ion-card-subtitle>Fecha Cita: {{item.Fechac}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+   
+          <ion-button shape="round" color="success" size="small" (click)="EditRecord(item)">
+            <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+   
+          </ion-button>
+          <ion-button shape="round" color="danger" size="small" (click)="RemoveRecord(item.id)">
+            <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+   
+          </ion-button>
+        </ion-card-content>
+      </span>
+    </span>
+      <ng-template #elseBlock>
+        <ion-card-header>
+          <ion-card-title>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  Edit
+                </ion-col>
+                <ion-col>
+                  <ion-button fill="clear" color="medium" size="small" (click)="item.isEdit = false">
+                    Cancel
+                  </ion-button>
+                </ion-col>
+                <ion-col>
+                  <ion-button fill="outline" color="success" size="small" (click)="UpdateRecord(item)">
+                    Update
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label><strong>Nombre:</strong></ion-label>
+            <ion-input type="text" [(ngModel)]="item.EditNamec"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label><strong>Apellido Paterno:</strong></ion-label>
+            <ion-input type="text" [(ngModel)]="item.EditLastnamec"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label><strong>Apellido Materno:</strong></ion-label>
+            <ion-input type="text" [(ngModel)]="item.EditSurnamec"></ion-input>
+          </ion-item>
+            <ion-item>
+              <ion-label><strong>Telefono:</strong></ion-label>
+              <ion-input type="text" [(ngModel)]="item.EditPhonec"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label><strong>Dirección:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.EditAddressc"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Fecha Cita:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.EditFechac"></ion-input>
+              </ion-item>
+        </ion-card-content>
+      </ng-template>
+      <ng-template #elseeBlock>
+          <ion-card-header>
+            <ion-card-title>
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    Detalles
+                  </ion-col>
+                  <ion-col>
+                    <ion-button fill="clear" color="medium" size="small" (click)="item.isGet = false">
+                      Cerrar
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+              <ion-item>
+                <ion-label><strong>Nombre:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.GetNamec" readonly="readonly"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Apellido Paterno:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.GetLastnamec" readonly="readonly"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Apellido Materno:</strong></ion-label>
+                <ion-input type="text" [(ngModel)]="item.GetSurnamec" readonly="readonly"></ion-input>
+              </ion-item>
+                <ion-item>
+                  <ion-label><strong>Telefono:</strong></ion-label>
+                  <ion-input type="text" [(ngModel)]="item.GetPhonec" readonly="readonly"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label><strong>Dirección:</strong></ion-label>
+                    <ion-input type="text" [(ngModel)]="item.GetAddressc" readonly="readonly"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label><strong>Fecha Cita:</strong></ion-label>
+                    <ion-input type="text" [(ngModel)]="item.GetFechac" readonly="readonly"></ion-input>
+                  </ion-item>
+            </ion-card-content>
+        </ng-template>
+    </ion-card>
+   
+  </ion-content>
